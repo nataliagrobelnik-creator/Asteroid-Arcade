@@ -39,6 +39,7 @@ Dann im Browser öffnen: `http://localhost:8080`
 - **Pfeil links/rechts:** Schiff rotieren
 - **Pfeil hoch:** Schub
 - **Leertaste:** Schießen
+- **P:** Pause/Fortsetzen
 - **Enter (bei Game Over):** Neustart
 
 ## Projektstruktur

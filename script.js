@@ -27,6 +27,7 @@
     score: 0,
     lives: config.maxLives,
     gameOver: false,
+    paused: false,
     wave: 1,
     lastTime: 0,
     shootCooldown: 0,
@@ -127,6 +128,7 @@
     state.score = 0;
     state.lives = config.maxLives;
     state.gameOver = false;
+    state.paused = false;
     state.wave = 1;
     state.shootCooldown = 0;
     spawnWave();
@@ -339,6 +341,19 @@
       ctx.fillText("Drücke Enter zum Neustart", canvas.width / 2, canvas.height / 2 + 35);
       ctx.textAlign = "left";
     }
+
+    if (state.paused && !state.gameOver) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.55)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#f5e06e";
+      ctx.font = "bold 56px monospace";
+      ctx.fillText("PAUSE", canvas.width / 2, canvas.height / 2 - 10);
+      ctx.fillStyle = "#e7f8ff";
+      ctx.font = "20px monospace";
+      ctx.fillText("Drücke P zum Fortsetzen", canvas.width / 2, canvas.height / 2 + 30);
+      ctx.textAlign = "left";
+    }
   }
 
   function render() {
@@ -386,7 +401,7 @@
     const dt = Math.min((timestamp - state.lastTime) / 1000, 0.033);
     state.lastTime = timestamp;
 
-    if (!state.gameOver) {
+    if (!state.gameOver && !state.paused) {
       handleInput(dt);
       updateEntities(dt);
       handleCollisions();
@@ -410,6 +425,10 @@
 
       if (event.code === "Enter" && state.gameOver) {
         resetGame();
+      }
+
+      if (event.code === "KeyP" && !state.gameOver) {
+        state.paused = !state.paused;
       }
     });
 
